@@ -81,11 +81,11 @@ public class userAccount{
             System.out.println("Error");
         }
         System.out.println(userType + " " + availableCredit);
-        return userType + " " + availableCredit;
+        return userType + "-" + availableCredit;
     }
 
 
-    // This method creates a new account for a user and updates the users account file and daily transaction file. This method also checks and catches bad input when the user is trying to make an account.
+    // This method creates a new account for a user and updates the users account file and daily transaction file. This method also checks and catches bad inputs when the user is trying to make an account.
     public static void createUser(String username, String userType, double availableCredit) throws FileNotFoundException
     {
         boolean found = false;
