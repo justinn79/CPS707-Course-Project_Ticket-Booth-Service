@@ -49,7 +49,6 @@ public class main{
                         user.username = username;
                         user.userType = userType;
                         user.availableCredit = availableCredit;
-                        System.out.println(user.username + " " + user.userType + " " + user.availableCredit);
                         loginFlag = true;
                     }
                     else
@@ -75,7 +74,36 @@ public class main{
                 {
                     System.out.println("You have successfully logged out");
                     loginFlag = false;
-                } 
+                }
+                //creating a new user
+                else if (input.equals("create"))
+                {
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String newUser = commandLine.next();
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String newUserType = commandLine.next();
+                    if(!(commandLine.hasNextDouble()))
+					{
+					    continue;
+					}
+                    Double newCredits = commandLine.nextDouble();
+                    //Checking if the user logged in is an admin
+                    if (user.userType.equals("AA"))
+                    {
+                        user.createUser(newUser, newUserType, newCredits);
+                        System.out.println("You have successfully created an new user");
+                    }
+                    else
+                    {
+                        System.out.println("You are unauthorized to use this transaction");
+                    }
+                }
             }
 
         }
