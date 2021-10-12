@@ -12,7 +12,7 @@ public class main{
         //empty userAccount object to be filled after a successful login
         userAccount user = new userAccount(null, null, 0);
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Tix Event Ticketing Service\nPlease Login:");
+        System.out.println("Welcome to Tix Event Ticketing Service");
         
         while(!(done))
         {
@@ -33,16 +33,16 @@ public class main{
                 //Checking if username is a valid login
                 if (input.equals("login"))
                 {
-                    if(!(commandLine.hasNextLine()))
-					{
-					    continue;
-					}
-                    String username = commandLine.next();
-                    if (user.login(username) == true)
+                    //If the username is valid then we fill the userAccount object with the right credentials
+                    if (user.login() == true)
                     {
-                        System.out.println("Login Successful");
-                        //If the username is valid then we fill the userAccount object with the right credentials
+                        if(!(commandLine.hasNextLine()))
+					    {
+					        continue;
+					    }
+                        String username = input;
                         String userCredentials = user.getUserCredentials(username);
+                        System.out.println(userCredentials);
                         String[] credentialsParts = userCredentials.split("-");
                         String userType = credentialsParts[0];
                         double availableCredit = Double.parseDouble(credentialsParts[1]);
@@ -50,10 +50,6 @@ public class main{
                         user.userType = userType;
                         user.availableCredit = availableCredit;
                         loginFlag = true;
-                    }
-                    else
-                    {
-                        System.out.println("Invalid Login");
                     }
                 }
                 //No transaction is accepted before a login
