@@ -223,6 +223,7 @@ public class userAccount{
             PrintWriter out = new PrintWriter(bw))
         {
             out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  username + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+            System.out.println("You have successfully created a new ticket event");
         }
         catch(IOException e)
         {
