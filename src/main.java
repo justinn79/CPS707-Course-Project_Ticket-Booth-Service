@@ -9,7 +9,7 @@ public class main{
 
         boolean done = false;
         boolean loginFlag = false;
-        //empty userAccount object to be fillid after a successful log in
+        //empty userAccount object to be filled after a successful login
         userAccount user = new userAccount(null, null, 0);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Tix Event Ticketing Service\nPlease Login:");
@@ -19,6 +19,14 @@ public class main{
             Scanner commandLine = new Scanner(scanner.nextLine());
             String input = commandLine.next();
             
+            //Ending the session
+            if (input.equals("Q"))
+            {
+                done = true;
+                commandLine.close();
+                scanner.close();
+                return;
+            }
             //Checking if user is already logged in
             if (loginFlag == false)
             {
@@ -33,7 +41,7 @@ public class main{
                     if (user.login(username) == true)
                     {
                         System.out.println("Login Successful");
-                        //If username is valid then we fill the userAccount object with the right credentials
+                        //If the username is valid then we fill the userAccount object with the right credentials
                         String userCredentials = user.getUserCredentials(username);
                         String[] credentialsParts = userCredentials.split("-");
                         String userType = credentialsParts[0];
@@ -41,6 +49,7 @@ public class main{
                         user.username = username;
                         user.userType = userType;
                         user.availableCredit = availableCredit;
+                        System.out.println(user.username + " " + user.userType + " " + user.availableCredit);
                         loginFlag = true;
                     }
                     else
@@ -61,13 +70,11 @@ public class main{
                 {
                     System.out.println("You are already logged in ");
                 }
-                //Ending the session
+                //Logging out
                 else if (input.equals("logout"))
                 {
-                    done = true;
-                    commandLine.close();
-                    scanner.close();
-                    return;
+                    System.out.println("You have successfully logged out");
+                    loginFlag = false;
                 } 
             }
 
