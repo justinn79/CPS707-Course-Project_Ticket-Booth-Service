@@ -13,12 +13,14 @@ public class userAccount{
     public String username, userType;
     public double availableCredit;
 
+    //Constructor for the userAccount class
     public userAccount(String username, String userType, double availableCredit){
         this.username = username;
         this.userType = userType;
         this.availableCredit = availableCredit;
     }
 
+    //Login method where the inputted username by the user is scanned in the user accounts file to verify their log in.
     public static boolean login(String username) throws FileNotFoundException
     {
         
@@ -48,6 +50,7 @@ public class userAccount{
         return found;
     }
 
+    //When the user is logged in, this method will use their username to search through the user accounts file to determine their additional info which is their user type and available credits.
     public static String getUserCredentials(String username) throws FileNotFoundException
     {
         
@@ -81,6 +84,8 @@ public class userAccount{
         return userType + " " + availableCredit;
     }
 
+
+    // This method creates a new account for a user and updates the users account file and daily transaction file. This method also checks and catches bad input when the user is trying to make an account.
     public static void createUser(String username, String userType, double availableCredit) throws FileNotFoundException
     {
         boolean found = false;
@@ -151,6 +156,7 @@ public class userAccount{
         }
 
     }
+
     // public static void main(String[] args) throws FileNotFoundException{
     //     createUser("Josh", "SS", 250.00);
     // }
