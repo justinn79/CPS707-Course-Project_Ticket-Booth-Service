@@ -80,7 +80,6 @@ public class userAccount{
         {
             System.out.println("Error");
         }
-        System.out.println(userType + " " + availableCredit);
         return userType + "-" + availableCredit;
     }
 
@@ -133,7 +132,7 @@ public class userAccount{
             System.out.println("Error");
         }
 
-        // create a user in the usersaccountfile.
+        // create a user in the usersAccountsFile.
 
         int userLength = username.length();
         int numDigits = String.valueOf(availableCredit).length();
