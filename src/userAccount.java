@@ -21,17 +21,12 @@ public class userAccount{
     }
 
     //Login method where the inputted username by the user is scanned in the user accounts file to verify their log in.
-    public static boolean login() throws FileNotFoundException
+    public static boolean login(String username) throws FileNotFoundException
     {
         
         boolean found = false;
         String userTemp = "";        
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter a valid username");
-        Scanner commandLine = new Scanner(scanner.nextLine());
-        String input = commandLine.next();
-        String username = input;
-
+        
         try
         {
             Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
@@ -47,15 +42,6 @@ public class userAccount{
                 }
             }
             scan.close();
-        
-            if (found == true)
-            {
-                System.out.println("Login Successful");
-            }
-            else
-            {
-                System.out.println("Invalid Login");
-            }
         }
         catch(Exception e)
         {
