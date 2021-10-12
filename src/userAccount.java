@@ -80,6 +80,7 @@ public class userAccount{
         {
             System.out.println("Error");
         }
+        System.out.println(userType + " " + availableCredit);
         return userType + "-" + availableCredit;
     }
 
@@ -132,7 +133,7 @@ public class userAccount{
             System.out.println("Error");
         }
 
-        // create a user in the usersAccountsFile.
+        // create a user in the usersaccountfile.
 
         int userLength = username.length();
         int numDigits = String.valueOf(availableCredit).length();
@@ -144,7 +145,6 @@ public class userAccount{
         String zero = "0";
 
         String createTransactionCode = "01";
-        String userTypeCode = "";
 
         try(FileWriter myWriter = new FileWriter("txtfiles/currentUsersAccountsFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
@@ -170,7 +170,69 @@ public class userAccount{
 
     }
 
+    // The sell ticket method where it takes the username, event title, ticket price, and the number of tickets. This information is stored in the daily transaction file and will be listed in the available tickets file.
+    public static void sellTicket(String username, String eventTitle, double ticketPrice, int numberOfTickets) throws FileNotFoundException{
+        
+        
+        if(ticketPrice > 999.99)
+        {
+            System.out.println("The maximum price for a ticket sale is $999.99");
+            return;
+        }
+
+        if(eventTitle.length() > 25)
+        {
+            System.out.println("The title of the event must have 25 characters at most.");
+            return;
+        }
+
+        if(numberOfTickets > 100)
+        {
+            System.out.println("The maximum number of tickets you could sell is 100.");
+            return;
+        }
+
+        int userLength = username.length();
+        int eventLength = eventTitle.length();
+        int ticketLength = String.valueOf(numberOfTickets).length();
+        int priceLength = String.valueOf(ticketPrice).length();
+
+        int numberOfWhiteSpacesUser = 15 - userLength;
+        int numberOfWhiteSpacesEvent = 25 - eventLength;
+        int numberOfZerosTicketAmount = 3 - ticketLength;
+        int numberOfZerosTicketPrice = 6 - priceLength;
+
+        String whiteSpace = " ";
+        String zero = "0";
+
+        String sellTransactionCode = "03";
+        String userTypeCode = "";
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+            BufferedWriter bw = new BufferedWriter(myWriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(sellTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  username + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
+        }
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/availableTicketsFile.txt", true);
+            BufferedWriter bw = new BufferedWriter(myWriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  username + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
+        }
+    }
+
     // public static void main(String[] args) throws FileNotFoundException{
-    //     createUser("Josh", "SS", 250.00);
+    //     //createUser("Josh", "SS", 250.00);
+    //     sellTicket("Ryan", "myEvent", 600, 75);
     // }
 }
