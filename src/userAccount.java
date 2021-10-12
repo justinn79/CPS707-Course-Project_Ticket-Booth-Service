@@ -7,9 +7,9 @@ public class userAccount{
 
     //Username, Usertype, available credits
     public String username, userType;
-    public float availableCredit;
+    public double availableCredit;
 
-    public userAccount(String username, String userType, float availableCredit){
+    public userAccount(String username, String userType, double availableCredit){
         this.username = username;
         this.userType = userType;
         this.availableCredit = availableCredit;
@@ -54,26 +54,25 @@ public class userAccount{
         
         try
         {
-            Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
-            scan.useDelimiter("\\s+");
+            Scanner scanner = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            scanner.useDelimiter("\\s+");
 
-            while(scan.hasNext() && !found)
+            while(scanner.hasNext() && !found)
             {
-                userTemp = scan.next();
+                userTemp = scanner.next();
 
                 if (userTemp.trim().equals(username.trim()))
                 {
-                    userType = scan.next();
-                    availableCredit = scan.next();
+                    userType = scanner.next();
+                    availableCredit = scanner.next();
                 }
             }
-            scan.close();
+            scanner.close();
         }
         catch(Exception e)
         {
             System.out.println("Error");
         }
-        System.out.println(userType + " " + availableCredit);
-        return userType + " " + availableCredit;
+        return userType + "-" + availableCredit;
     }
 }
