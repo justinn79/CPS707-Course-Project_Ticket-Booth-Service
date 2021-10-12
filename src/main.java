@@ -30,17 +30,13 @@ public class main{
                     if (user.login(username) == true)
                     {
                         System.out.println("Login Successful");
-                        String userCredentials = user.getUserCredentials(user.username);
-                        System.out.println(userCredentials);
-                        // String[] credentialsParts = userCredentials.split("-");
-                        // System.out.println(credentialsParts[0]);
-                        // System.out.println(credentialsParts[1]);
-                        // String userType = credentialsParts[0];
-                        // double availableCredit = Double.parseDouble(credentialsParts[1]);
-                        // user.username = username;
-                        // user.userType = userType;
-                        // user.availableCredit = availableCredit;
-                        // System.out.println(user.username + " " + user.userType + " " + user.availableCredit);                       
+                        String userCredentials = user.getUserCredentials(username);
+                        String[] credentialsParts = userCredentials.split("-");
+                        String userType = credentialsParts[0];
+                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        user.username = username;
+                        user.userType = userType;
+                        user.availableCredit = availableCredit;                     
                         loginFlag = true;
                     }
                     else
