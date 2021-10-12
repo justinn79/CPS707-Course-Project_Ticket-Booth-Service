@@ -67,7 +67,7 @@ public class main{
                 //No double logins
                 if (input.equals("login"))
                 {
-                    System.out.println("You are already logged in ");
+                    System.out.println("You are already logged in");
                 }
                 //Logging out
                 else if (input.equals("logout"))
