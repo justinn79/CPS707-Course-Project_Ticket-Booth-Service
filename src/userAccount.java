@@ -144,11 +144,25 @@ public class userAccount{
         String whiteSpace = " ";
         String zero = "0";
 
+        String createTransactionCode = "01";
+        String userTypeCode = "";
+
         try(FileWriter myWriter = new FileWriter("txtfiles/currentUsersAccountsFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
             out.print("\n" + username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + availableCredit + "0");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
+        }
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+            BufferedWriter bw = new BufferedWriter(myWriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(createTransactionCode + " " + username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + availableCredit + "0" + "\n");
         }
         catch(IOException e)
         {
