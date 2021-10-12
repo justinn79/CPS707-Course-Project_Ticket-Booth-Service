@@ -75,7 +75,7 @@ public class main{
                     System.out.println("You have successfully logged out");
                     loginFlag = false;
                 }
-                //creating a new user
+                //Creating a new user
                 else if (input.equals("create"))
                 {
                     if(!(commandLine.hasNextLine()))
@@ -92,7 +92,7 @@ public class main{
 					{
 					    continue;
 					}
-                    Double newCredits = commandLine.nextDouble();
+                    double newCredits = commandLine.nextDouble();
                     //Checking if the user logged in is an admin
                     if (user.userType.equals("AA"))
                     {
@@ -102,6 +102,34 @@ public class main{
                     else
                     {
                         System.out.println("You are unauthorized to use this transaction");
+                    }
+                }
+                //Put tickets up for sale
+                else if (input.equals("sell"))
+                {
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String eventTitle = commandLine.next();
+                    if(!(commandLine.hasNextDouble()))
+					{
+					    continue;
+					}
+                    double ticketPrice = commandLine.nextDouble();
+                    if(!(commandLine.hasNextInt()))
+					{
+					    continue;
+					}
+                    int numberOfTickets = commandLine.nextInt();
+                    //Checking if user is logged in as standard-buy
+                    if (user.userType.equals("BS"))
+                    {
+                        System.out.println("You are unauthorized to use this transaction");
+                    }
+                    else
+                    {
+                        user.sellTicket(user.username, eventTitle, ticketPrice, numberOfTickets);
                     }
                 }
             }
