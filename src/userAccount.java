@@ -716,9 +716,123 @@ public class userAccount{
         }
     }
 
+    //This addCredit method allows a user to add credits into their account and also allows an admin to add credits to an existing account of their choice.
     public static void addCredit(double creditAmount, String username)
     {
+        int usernameLength = username.length();
 
+        int numberOfWhiteSpaces = 15 - usernameLength;
+
+        String whiteSpaces = " ";
+        String zeros = "0";
+
+        String userTemp = "";
+        String userType = "";
+        double userAvailableCredit;
+
+        if (creditAmount > 1000)
+        {
+            System.out.println("You can only add a maximum of $1000.00 in credit.");
+            return;
+        }
+
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found = false;
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+            while(userScan.hasNext() && !found)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
+
+                if (userTemp.trim().equals(username.trim()))
+                {
+                    int numDigits = String.valueOf(userAvailableCredit).length();
+                    int numOfZeros = 9 - numDigits;
+
+                    double addedAmount = userAvailableCredit + creditAmount;
+
+                    int numDigitsForNewAmount = String.valueOf(addedAmount).length();
+                    int numOfZerosForNewAmount = 9 - numDigitsForNewAmount;
+
+                    String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numOfZeros-1) + userAvailableCredit + "0");
+                    // System.out.println(oldLine);
+                    String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numOfZerosForNewAmount-1) + addedAmount + "0");
+                    // System.out.println(newLine);
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found = true;
+                    
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        // Saving this information to the daily transaction file.
+
+        boolean found1 = false;
+
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+
+            while(userScan.hasNext() && !found1)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
+
+                if (userTemp.trim().equals(username.trim()))
+                {
+                    String addCreditTransactionCode = "06";
+                    int numOfDigitsAvailableCredit = String.valueOf(userAvailableCredit).length();
+                    int numOfZerosForAvailableCredit= 9 - numOfDigitsAvailableCredit;
+
+                    try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+                        BufferedWriter bw = new BufferedWriter(myWriter);
+                        PrintWriter out = new PrintWriter(bw))
+                    {
+                        out.print(addCreditTransactionCode + " " + username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numOfZerosForAvailableCredit-1) + userAvailableCredit + "0" + "\n");
+                    }
+                    catch(IOException e)
+                    {
+                        System.out.println("Error");
+                    }
+                    found1 = true;
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("addCredit Error");
+        }
     }
 
 
@@ -729,5 +843,6 @@ public class userAccount{
         // buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
         // deleteUser("Ryan");
         //refund("Justin", "Ryan", 100);
+        //addCredit(1000, "Justin");
     }
 }
