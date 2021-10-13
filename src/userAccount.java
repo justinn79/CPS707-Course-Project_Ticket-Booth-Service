@@ -443,9 +443,9 @@ public class userAccount{
     // String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets) + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     
 
-    public static void main(String[] args) throws FileNotFoundException{
-        //createUser("Josh", "SS", 250.00);
-        //sellTicket("Ryan", "myEvent", 600, 75);
-        buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
-    }
+    // public static void main(String[] args) throws FileNotFoundException{
+    //     //createUser("Josh", "SS", 250.00);
+    //     //sellTicket("Ryan", "myEvent", 600, 75);
+    //     buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
+    // }
 }
