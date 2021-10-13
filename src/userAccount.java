@@ -80,11 +80,12 @@ public class userAccount{
         {
             System.out.println("Error");
         }
+        System.out.println(userType + " " + availableCredit);
         return userType + "-" + availableCredit;
     }
 
 
-    // This method creates a new account for a user and updates the users accounts file and daily transaction file. This method also checks and catches bad inputs when the user is trying to make an account.
+    // This method creates a new account for a user and updates the users account file and daily transaction file. This method also checks and catches bad inputs when the user is trying to make an account.
     public static void createUser(String username, String userType, double availableCredit) throws FileNotFoundException
     {
         boolean found = false;
@@ -132,7 +133,7 @@ public class userAccount{
             System.out.println("Error");
         }
 
-        // create a user in the users accouns file.
+        // create a user in the usersaccountfile.
 
         int userLength = username.length();
         int numDigits = String.valueOf(availableCredit).length();
@@ -170,7 +171,7 @@ public class userAccount{
     }
 
     // The sell ticket method where it takes the username, event title, ticket price, and the number of tickets. This information is stored in the daily transaction file and will be listed in the available tickets file.
-    public static void sellTicket(String username, String eventTitle, double ticketPrice, int numberOfTickets) throws FileNotFoundException{
+    public static void sellTicket(String sellerUsername, String eventTitle, double ticketPrice, int numberOfTickets) throws FileNotFoundException{
         
         
         if(ticketPrice > 999.99)
@@ -191,7 +192,7 @@ public class userAccount{
             return;
         }
 
-        int userLength = username.length();
+        int userLength = sellerUsername.length();
         int eventLength = eventTitle.length();
         int ticketLength = String.valueOf(numberOfTickets).length();
         int priceLength = String.valueOf(ticketPrice).length();
@@ -211,7 +212,7 @@ public class userAccount{
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.print(sellTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  username + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+            out.print(sellTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
         }
         catch(IOException e)
         {
@@ -222,8 +223,7 @@ public class userAccount{
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
-            out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  username + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
-            System.out.println("You have successfully created a new ticket event");
+            out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
         }
         catch(IOException e)
         {
@@ -231,8 +231,222 @@ public class userAccount{
         }
     }
 
-    // public static void main(String[] args) throws FileNotFoundException{
-    //     //createUser("Josh", "SS", 250.00);
-    //     sellTicket("Ryan", "myEvent", 600, 75);
-    // }
+    public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username) throws FileNotFoundException
+    {
+        boolean found = false;
+        double userAvailableCredit;
+        String userType = "";
+        String userTemp = "";
+        String eventTemp = "";
+        String totalTicketsTemp = "";
+        String ticketCostTemp = "";
+
+        Scanner scanner = new Scanner(System.in);
+
+        try
+        {
+            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+            scan.useDelimiter("\\s+");
+
+            while(scan.hasNext() && !found)
+            {
+                eventTemp = scan.next();
+
+                if (eventTemp.trim().equals(eventTitle.trim()))
+                {
+                    userTemp = scan.next();
+                    totalTicketsTemp = scan.next();
+                    ticketCostTemp = scan.next();
+
+                    if(userTemp.equals(sellerUsername))
+                    {
+                        if(Integer.parseInt(totalTicketsTemp) < numberOfTickets)
+                        {
+                            System.out.println("There are an insufficient number of tickets for sale.");
+                            found = true;
+                            break;
+                        }
+                        System.out.println("Cost per ticket: " + ticketCostTemp);
+                        System.out.println("Number of tickets your purchasing: " + numberOfTickets);
+                        double totalCost = Double.parseDouble(ticketCostTemp) * numberOfTickets;
+                        System.out.println("Your total is: " + totalCost);
+
+                        System.out.println("Would you like to make this purchase? (Y/N)");
+                        Scanner commandLine = new Scanner(scanner.nextLine());
+                        String input = commandLine.next();
+
+                        if(input.equals("Y"))
+                        {
+                            if(availableCredit < totalCost)
+                            {
+                                System.out.println("You do not have enough credits to make this purchase. You have: $" + availableCredit);
+                                found = true;
+                                break;
+                            }
+
+                            System.out.println("Purchase successful");
+                        }
+
+                        if(input.equals("N"))
+                        {
+                            System.out.println("Purchase cancelled.");
+                        }
+                        
+                        
+                        found = true;
+                    }
+                }
+            }
+            if(found == false)
+            {
+                System.out.println("The information provided does not match with any available tickets.");
+            }
+            scan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        // //Updating the buy information on the daily transaction file.
+
+        int userLength = sellerUsername.length();
+        int eventLength = eventTitle.length();
+        int ticketLength = String.valueOf(numberOfTickets).length();
+        int priceLength = String.valueOf(ticketCostTemp).length();
+
+        int numberOfWhiteSpacesUser = 15 - userLength;
+        int numberOfWhiteSpacesEvent = 25 - eventLength;
+        int numberOfZerosTicketAmount = 3 - ticketLength;
+        int numberOfZerosTicketPrice = 6 - priceLength;
+
+        String whiteSpace = " ";
+        String zero = "0";
+
+        String buyTransactionCode = "04";
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+            BufferedWriter bw = new BufferedWriter(myWriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(buyTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp + "\n");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
+        }
+
+        // Deducting the amount sold from the seller's inventory
+        try
+        {
+            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan.hasNextLine()) {
+                buffer.append(scan.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found2 = false;
+
+            Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+
+            ticketScan.useDelimiter("\\s+");
+            while(ticketScan.hasNext() && !found2)
+            {
+                eventTemp = ticketScan.next();
+
+                if (eventTemp.trim().equals(eventTitle.trim()))
+                {
+                    userTemp = ticketScan.next();
+
+                    if(userTemp.equals(sellerUsername))
+                    {
+                        int numberOfZerosTicketAmount2 = totalTicketsTemp.length() - ticketLength;
+                        totalTicketsTemp = ticketScan.next();
+                        String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + totalTicketsTemp);
+                        String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
+                        fileText = fileText.replaceAll(oldLine, newLine);
+                        FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
+                        writer.append(fileText);
+                        writer.flush();
+                        found2 = true;
+                    }
+                }
+            }
+            ticketScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        // Deducting the amount of user credits after a purchase has been made.
+
+        int usernameLength = username.length();
+        int numDigits = String.valueOf(availableCredit).length();
+
+        double totalCost = Double.parseDouble(ticketCostTemp) * numberOfTickets;
+        double newCreditValue = availableCredit - totalCost;
+        int newCreditValueDigits = String.valueOf(newCreditValue).length();
+
+        int numberOfWhiteSpaces = 15 - usernameLength;
+        int numberOfZeros = 9 - numDigits;
+
+        int numberOfZerosForNewValue = 9 - newCreditValueDigits;
+
+        String whiteSpaces = " ";
+        String zeros = "0";
+        
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found3 = false;
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+            while(userScan.hasNext() && !found3)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+
+                if (userTemp.trim().equals(username.trim()))
+                {
+                    userAvailableCredit = userScan.nextDouble();
+                    String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZeros-1) + availableCredit + "0");
+                    String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZerosForNewValue-1) + newCreditValue + "0");
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found3 = true;
+                    
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        //username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + availableCredit + "0"
+
+    }
+
+    // String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
+    // String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets) + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
+    
+
+    public static void main(String[] args) throws FileNotFoundException{
+        //createUser("Josh", "SS", 250.00);
+        //sellTicket("Ryan", "myEvent", 600, 75);
+        buyTicket("myEvent", 10, "Ryan", 10000.00, "Justin");
+    }
 }
