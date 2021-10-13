@@ -190,6 +190,33 @@ public class main{
                         }
                     }
                 }
+                //Delete a user
+                else if (input.equals("delete"))
+                {
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String deleteUser = commandLine.next();
+                    //Checking if current user is logged in as admin
+                    if (user.userType.equals("AA"))
+                    {
+                        //Can't delete current user
+                        if (user.username.equals(deleteUser))
+                        {
+                            System.out.println("Can not delete the current user logged in");
+                        }
+                        else
+                        {
+                            user.deleteUser(deleteUser);
+                            System.out.println("User: " + deleteUser + " successfully deleted");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("You are unauthorized to use this transaction"); 
+                    }
+                }
             }
 
         }
