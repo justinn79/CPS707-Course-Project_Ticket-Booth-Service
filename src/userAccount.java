@@ -212,6 +212,7 @@ public class userAccount{
             PrintWriter out = new PrintWriter(bw))
         {
             out.print(sellTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+            System.out.println("You have successfully put your tickets up for sale");
         }
         catch(IOException e)
         {
@@ -223,7 +224,6 @@ public class userAccount{
             PrintWriter out = new PrintWriter(bw))
         {
             out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
-            System.out.println("You have successfully put your tickets up for sale");
         }
         catch(IOException e)
         {
@@ -444,6 +444,8 @@ public class userAccount{
     // String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     // String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets) + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     
+
+
     public static void deleteUser(String username)
     {
         boolean found = false;
@@ -558,8 +560,8 @@ public class userAccount{
         catch(Exception e)
         {
             System.out.println("deleteUser Error");
+            
         }
-        
         //Updating the delete information on the daily transaction file.
 
         String deleteTransactionCode = "02";
@@ -578,12 +580,154 @@ public class userAccount{
         }
     }
 
+    //This method issues a refund to the buyer's account from the seller's account.
+    public static void refund(String username, String sellerUsername, double creditAmount)
+    {
+        // Adding the specified amount of user credits to the buyer from the seller for the refund.
+
+        int usernameLength = username.length();
+        int sellerUsernameLength = sellerUsername.length();
+
+        int numberOfWhiteSpaces = 15 - usernameLength;
+        int numberOfWhiteSpacesSeller = 15 - sellerUsernameLength;
+
+        String whiteSpaces = " ";
+        String zeros = "0";
+
+        String userTemp = "";
+        String userType = "";
+        double userAvailableCredit;
+        
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found3 = false;
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+            while(userScan.hasNext() && !found3)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
+
+                if (userTemp.trim().equals(username.trim()))
+                {
+                    int numDigits = String.valueOf(userAvailableCredit).length();
+                    int numOfZeros = 9 - numDigits;
+
+                    double addedAmount = userAvailableCredit + creditAmount;
+
+                    int numDigitsForNewAmount = String.valueOf(addedAmount).length();
+                    int numOfZerosForNewAmount = 9 - numDigitsForNewAmount;
+
+                    String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numOfZeros-1) + userAvailableCredit + "0");
+                    // System.out.println(oldLine);
+                    String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numOfZerosForNewAmount-1) + addedAmount + "0");
+                    // System.out.println(newLine);
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found3 = true;
+                    
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        // Deducting the specified amount of user credits from the seller for the refund.
+        
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found3 = false;
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+            while(userScan.hasNext() && !found3)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
+
+                if (userTemp.trim().equals(sellerUsername.trim()))
+                {
+                    int numDigits = String.valueOf(userAvailableCredit).length();
+                    int numOfZeros = 9 - numDigits;
+
+                    double subtractedAmount = userAvailableCredit - creditAmount;
+
+                    int numDigitsForNewAmount = String.valueOf(subtractedAmount).length();
+                    int numOfZerosForNewAmount = 9 - numDigitsForNewAmount;
+
+                    String oldLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numOfZeros-1) + userAvailableCredit + "0");
+                    // System.out.println(oldLine);
+                    String newLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numOfZerosForNewAmount-1) + subtractedAmount + "0");
+                    // System.out.println(newLine);
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found3 = true;
+                    
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
+
+        // Saving this information to the daily transaction file.
+
+        String refundTransactionCode = "05";
+        int numOfDigitsCreditAmount = String.valueOf(creditAmount).length();
+        int numOfZerosForCreditAmount = 9 - numOfDigitsCreditAmount;
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+            BufferedWriter bw = new BufferedWriter(myWriter);
+            PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(refundTransactionCode + " " + username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + zeros.repeat(numOfZerosForCreditAmount-1) + creditAmount + "0" + "\n");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
+        }
+    }
+
+    public static void addCredit(double creditAmount, String username)
+    {
+
+    }
+
 
 
     public static void main(String[] args) throws FileNotFoundException{
         //createUser("Josh", "SS", 250.00);
         //sellTicket("Ryan", "myEvent", 600, 75);
         // buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
-        deleteUser("Ryan");
+        // deleteUser("Ryan");
+        //refund("Justin", "Ryan", 100);
     }
 }
