@@ -80,7 +80,6 @@ public class userAccount{
         {
             System.out.println("Error");
         }
-        System.out.println(userType + " " + availableCredit);
         return userType + "-" + availableCredit;
     }
 
