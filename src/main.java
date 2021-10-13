@@ -238,7 +238,7 @@ public class main{
                     //Checking if current user is logged in as admin
                     if (user.userType.equals("AA"))
                     {
-                        //checking that buyer and seller are actual users
+                        //Checking that buyer and seller are actual users
                         if (user.login(buyer) == false)
                         {
                             System.out.println("The buyer's account does not exist");
@@ -258,6 +258,53 @@ public class main{
                         System.out.println("You are unauthorized to use this transaction");
                     }
                 }
+                //Adds credit to a user
+                else if (input.equals("addcredit"))
+                {
+                    if(!(commandLine.hasNextDouble()))
+					{
+					    continue;
+					}
+                    double creditAmount = commandLine.nextDouble();
+                    if (creditAmount > 1000)
+                    {
+                        System.out.println("You can only add a maximum of $1000.00 in credit.");
+                        continue;
+                    }
+                    //For regular add credit
+                    if(!(commandLine.hasNext()))
+                    {
+                        user.addCredit(creditAmount, user.username);
+                        System.out.println("Credit successfully added to your account");
+                    }
+                    else if(commandLine.hasNextLine())
+                    {
+                        String addCreditUser = commandLine.next();
+                        //Checking if current user is logged in as admin for admin add credit
+                        if (user.userType.equals("AA"))
+                        {
+                            //Checking if the user exists
+                            if (user.login(addCreditUser) == false)
+                            {
+                                System.out.println("The user: " + addCreditUser + " does not exist");
+                            }
+                            else
+                            {
+                            user.addCredit(creditAmount, addCreditUser);
+                            System.out.println("Credit successfully added to " + addCreditUser + "'s account");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("You are unauthorized to give another user credit");
+                        }
+                    }
+                }
+                //handling for non valid commands
+				else
+				{
+					System.out.println("Please enter a valid command (Q to quit): ");
+				}
             }
 
         }
