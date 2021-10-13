@@ -223,6 +223,7 @@ public class userAccount{
             PrintWriter out = new PrintWriter(bw))
         {
             out.print(eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n");
+            System.out.println("You have successfully put your tickets up for sale");
         }
         catch(IOException e)
         {
@@ -443,15 +444,6 @@ public class userAccount{
     // String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     // String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets) + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     
-
-<<<<<<< HEAD
-    // public static void main(String[] args) throws FileNotFoundException{
-    //     //createUser("Josh", "SS", 250.00);
-    //     //sellTicket("Ryan", "myEvent", 600, 75);
-    //     buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
-    // }
-=======
-
     public static void deleteUser(String username)
     {
         boolean found = false;
@@ -577,5 +569,4 @@ public class userAccount{
         // buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
         deleteUser("Ryan");
     }
->>>>>>> main
 }
