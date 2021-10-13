@@ -217,6 +217,47 @@ public class main{
                         System.out.println("You are unauthorized to use this transaction"); 
                     }
                 }
+                //Refunds a buyer
+                else if (input.equals("refund"))
+                {
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String buyer = commandLine.next();
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String seller = commandLine.next();
+                    if(!(commandLine.hasNextDouble()))
+					{
+					    continue;
+					}
+                    double creditAmount = commandLine.nextDouble();
+                    //Checking if current user is logged in as admin
+                    if (user.userType.equals("AA"))
+                    {
+                        //checking that buyer and seller are actual users
+                        if (user.login(buyer) == false)
+                        {
+                            System.out.println("The buyer's account does not exist");
+                        }
+                        else if (user.login(seller) == false)
+                        {
+                            System.out.println("The seller's account does not exist");
+                        }
+                        else
+                        {
+                            user.refund(buyer, seller, creditAmount);
+                            System.out.println("Refund was successful");
+                        }
+                    }
+                    else
+                    {
+                        System.out.println("You are unauthorized to use this transaction");
+                    }
+                }
             }
 
         }
