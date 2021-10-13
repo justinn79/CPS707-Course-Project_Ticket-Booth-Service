@@ -1,4 +1,4 @@
 admin           AA 000000.00
-Ryan            FS 000100.00
-Justin          BS 000095.00
-Ferhan          SS 000500.00
+Ryan            FS 005000.00
+Justin          BS 004000.00
+Ferhan          FS 010000.00
