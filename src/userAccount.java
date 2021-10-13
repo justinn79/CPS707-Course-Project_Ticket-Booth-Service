@@ -730,12 +730,6 @@ public class userAccount{
         String userType = "";
         double userAvailableCredit;
 
-        if (creditAmount > 1000)
-        {
-            System.out.println("You can only add a maximum of $1000.00 in credit.");
-            return;
-        }
-
         try
         {
             Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
