@@ -104,7 +104,7 @@ public class main{
                         System.out.println("You are unauthorized to use this transaction");
                     }
                 }
-                //Put tickets up for sale
+                //Putting tickets up for sale
                 else if (input.equals("sell"))
                 {
                     if(!(commandLine.hasNextLine()))
@@ -130,6 +130,64 @@ public class main{
                     else
                     {
                         user.sellTicket(user.username, eventTitle, ticketPrice, numberOfTickets);
+                    }
+                }
+                //Buying a ticket
+                else if (input.equals("buy"))
+                {
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String eventTitle = commandLine.next();
+                    if(!(commandLine.hasNextInt()))
+					{
+					    continue;
+					}
+                    int numberOfTickets = commandLine.nextInt();
+                    if(!(commandLine.hasNextLine()))
+					{
+					    continue;
+					}
+                    String sellerUsername = commandLine.next();
+                    //Checking if user is logged in as standard-sell
+                    if (user.userType.equals("SS"))
+                    {
+                        System.out.println("You are unauthorized to use this transaction");
+                    }
+                    //Checking if user is logged in as admin
+                    else if (user.userType.equals("AA"))
+                    {
+                        user.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
+                        //Updating the user's credentials
+                        String userCredentials = user.getUserCredentials(user.username);
+                        String[] credentialsParts = userCredentials.split("-");
+                        String userType = credentialsParts[0];
+                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        user.username = user.username;
+                        user.userType = userType;
+                        user.availableCredit = availableCredit;
+                    }
+                    //For BS and FS users
+                    else
+                    {
+                        //making sure the user only buys a maximum of 4 tickets
+                        if (numberOfTickets > 4)
+                        {
+                            System.out.println("You can only buy a maximum of 4 tickets");
+                        }
+                        else
+                        {
+                            user.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
+                            //Updating the user's credentials
+                            String userCredentials = user.getUserCredentials(user.username);
+                            String[] credentialsParts = userCredentials.split("-");
+                            String userType = credentialsParts[0];
+                            double availableCredit = Double.parseDouble(credentialsParts[1]);
+                            user.username = user.username;
+                            user.userType = userType;
+                            user.availableCredit = availableCredit;
+                        }
                     }
                 }
             }
