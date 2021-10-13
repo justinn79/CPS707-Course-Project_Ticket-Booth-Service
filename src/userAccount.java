@@ -363,7 +363,7 @@ public class userAccount{
                         int numberOfZerosTicketAmount2 = totalTicketsTemp.length() - ticketLength;
                         totalTicketsTemp = ticketScan.next();
                         String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + totalTicketsTemp);
-                        String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
+                        String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2-1) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
                         fileText = fileText.replaceAll(oldLine, newLine);
                         FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
                         writer.append(fileText);
@@ -414,10 +414,10 @@ public class userAccount{
             {
                 userTemp = userScan.next();
                 userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
 
                 if (userTemp.trim().equals(username.trim()))
                 {
-                    userAvailableCredit = userScan.nextDouble();
                     String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZeros-1) + availableCredit + "0");
                     String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZerosForNewValue-1) + newCreditValue + "0");
                     fileText = fileText.replaceAll(oldLine, newLine);
@@ -446,6 +446,6 @@ public class userAccount{
     public static void main(String[] args) throws FileNotFoundException{
         //createUser("Josh", "SS", 250.00);
         //sellTicket("Ryan", "myEvent", 600, 75);
-        buyTicket("myEvent", 10, "Ryan", 10000.00, "Justin");
+        buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
     }
 }
