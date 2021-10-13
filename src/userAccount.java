@@ -449,7 +449,7 @@ public class userAccount{
         boolean found = false;
         String userTemp = "";  
         String userType = "";
-        double userCredits;      
+        double userCredits = 0;      
 
         int userLength = username.length();
         int numberOfWhiteSpaces = 15 - userLength;
@@ -558,6 +558,23 @@ public class userAccount{
         catch(Exception e)
         {
             System.out.println("deleteUser Error");
+        }
+        
+        //Updating the delete information on the daily transaction file.
+
+        String deleteTransactionCode = "02";
+        int numDigits = String.valueOf(userCredits).length();
+        int numberOfZeros = 9 - numDigits;
+
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+        BufferedWriter bw = new BufferedWriter(myWriter);
+        PrintWriter out = new PrintWriter(bw))
+        {
+            out.print(deleteTransactionCode + " " + username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + userCredits + "0" + "\n");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error");
         }
     }
 
