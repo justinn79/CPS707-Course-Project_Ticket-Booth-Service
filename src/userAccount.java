@@ -230,6 +230,7 @@ public class userAccount{
         }
     }
 
+    //This method processes tickets bought by the user and is done so by updating the buy information on the daily transactions file, deducting the amount sold from the seller’s inventory, and deducting the amount of user credits after a purchase has been made.
     public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username) throws FileNotFoundException
     {
         boolean found = false;
@@ -443,9 +444,138 @@ public class userAccount{
     // String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets) + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp);
     
 
+<<<<<<< HEAD
     // public static void main(String[] args) throws FileNotFoundException{
     //     //createUser("Josh", "SS", 250.00);
     //     //sellTicket("Ryan", "myEvent", 600, 75);
     //     buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
     // }
+=======
+
+    public static void deleteUser(String username)
+    {
+        boolean found = false;
+        String userTemp = "";  
+        String userType = "";
+        double userCredits;      
+
+        int userLength = username.length();
+        int numberOfWhiteSpaces = 15 - userLength;
+
+        String whiteSpace = " ";
+        String zero = "0";
+        
+        // Removing the username from the currentUsersAccountFile.
+        try
+        {
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+
+            while(userScan.hasNext() && !found)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userCredits = userScan.nextDouble();
+
+                if (userTemp.trim().equals(username.trim()))
+                {
+                    int numDigits = String.valueOf(userCredits).length();
+                    int numberOfZeros = 9 - numDigits;
+                    String oldLine = (username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + userCredits + "0");
+                    String newLine = ("");
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found = true;
+                }
+            }
+            userScan.close();
+
+            if(found == false)
+            {
+                System.out.println("This username does not exist.");
+                return;
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("deleteUser Error");
+        }
+
+        // Removing any ticket in the availableTicketsFile that is associated with the deleted user.
+
+        String eventTemp = "";
+        String numOfTickets = "";
+        String ticketPrice = "";
+
+        String whiteSpaces = " ";
+        String zeros = "0";
+
+        try
+        {
+            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan.hasNextLine()) {
+                buffer.append(scan.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found2 = false;
+
+            Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+
+            ticketScan.useDelimiter("\\s+");
+            while(ticketScan.hasNext() && !found2)
+            {
+                eventTemp = ticketScan.next();
+                userTemp = ticketScan.next();
+                numOfTickets = ticketScan.next();
+                ticketPrice = ticketScan.next();
+
+                if(userTemp.equals(username))
+                {
+                    // int userLength = username.length();
+                    int eventLength = eventTemp.length();
+                    int ticketLength = String.valueOf(numOfTickets).length();
+                    int priceLength = String.valueOf(ticketPrice).length();
+                    int numberOfWhiteSpacesUser = 15 - userLength;
+                    int numberOfWhiteSpacesEvent = 25 - eventLength;
+                    // int numberOfZerosTicketAmount = 3 - ticketLength;
+                    // int numberOfZerosTicketPrice = 6 - priceLength;
+                    String oldLine = (eventTemp + whiteSpaces.repeat(numberOfWhiteSpacesEvent) + " " +  userTemp + whiteSpaces.repeat(numberOfWhiteSpacesUser) + " " + numOfTickets + " " + ticketPrice);
+                    String newLine = ("");
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found2 = true;
+                }
+                //eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice-1) + ticketPrice + "0" + "\n"
+            }
+            ticketScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("deleteUser Error");
+        }
+    }
+
+
+
+    public static void main(String[] args) throws FileNotFoundException{
+        //createUser("Josh", "SS", 250.00);
+        //sellTicket("Ryan", "myEvent", 600, 75);
+        // buyTicket("myEvent2", 1, "Justin", 10000.00, "Ferhan");
+        deleteUser("Ryan");
+    }
+>>>>>>> main
 }
