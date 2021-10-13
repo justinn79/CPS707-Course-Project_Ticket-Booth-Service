@@ -1,4 +1,0 @@
-03 myEvent                   Ryan            075 600.00
-04 myEvent                   Ryan            075 600.00
-04 myEvent                   Ryan            010 600.00
-04 myEvent                   Ryan            010 600.00
