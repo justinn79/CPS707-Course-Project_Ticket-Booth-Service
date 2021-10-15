@@ -280,6 +280,56 @@ public class transactions {
         {
             System.out.println("Error");
         }
+
+        // Adding the amount of user credits to the seller after a purchase has been made.
+        try
+        {
+            int sellerUsernameLength = sellerUsername.length();
+
+            int numberOfWhiteSpacesSeller = 15 - sellerUsernameLength;
+
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            StringBuffer buffer = new StringBuffer();
+            while (scan1.hasNextLine()) {
+                buffer.append(scan1.nextLine()+System.lineSeparator());
+            }
+            String fileText = buffer.toString();
+
+            boolean found3 = false;
+
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+            userScan.useDelimiter("\\s+");
+            while(userScan.hasNext() && !found3)
+            {
+                userTemp = userScan.next();
+                userType = userScan.next();
+                userAvailableCredit = userScan.nextDouble();
+
+                if (userTemp.trim().equals(sellerUsername.trim()))
+                {
+                    double newSellersCreditValue = userAvailableCredit + totalCost;
+                    int newSellersCreditValueDigits = String.valueOf(newSellersCreditValue).length();
+                    int numberOfZerosForSellersValue = 9 - newSellersCreditValueDigits;
+
+                    int numDigitsOldSeller = String.valueOf(userAvailableCredit).length();
+                    int numberOfZerosOldSeller = 9 - numDigitsOldSeller;
+
+                    String oldLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosOldSeller-1) + userAvailableCredit + "0");
+                    String newLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosForSellersValue-1) + newSellersCreditValue + "0");
+                    fileText = fileText.replaceAll(oldLine, newLine);
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                    writer.append(fileText);
+                    writer.flush();
+                    found3 = true;
+                }
+            }
+            userScan.close();
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error");
+        }
     }
 
     //This method issues a refund to the buyer's account from the seller's account.
