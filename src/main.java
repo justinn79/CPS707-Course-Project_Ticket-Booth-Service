@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.io.File;
 import java.io.FileNotFoundException;
 
 public class main{
@@ -9,8 +8,10 @@ public class main{
 
         boolean done = false;
         boolean loginFlag = false;
-        //empty userAccount object to be filled after a successful login
+        //Empty userAccount object to be filled after a successful login
         userAccount user = new userAccount(null, null, 0);
+        //transactions object
+        transactions transaction = new transactions();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Tix Event Ticketing Service\nPlease Login:");
         
@@ -129,7 +130,7 @@ public class main{
                     }
                     else
                     {
-                        user.sellTicket(user.username, eventTitle, ticketPrice, numberOfTickets);
+                        transaction.sellTicket(user.username, eventTitle, ticketPrice, numberOfTickets);
                     }
                 }
                 //Buying a ticket
@@ -158,7 +159,7 @@ public class main{
                     //Checking if user is logged in as admin
                     else if (user.userType.equals("AA"))
                     {
-                        user.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
+                        transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
                         //Updating the user's credentials
                         String userCredentials = user.getUserCredentials(user.username);
                         String[] credentialsParts = userCredentials.split("-");
@@ -178,7 +179,7 @@ public class main{
                         }
                         else
                         {
-                            user.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
+                            transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
                             //Updating the user's credentials
                             String userCredentials = user.getUserCredentials(user.username);
                             String[] credentialsParts = userCredentials.split("-");
@@ -249,7 +250,7 @@ public class main{
                         }
                         else
                         {
-                            user.refund(buyer, seller, creditAmount);
+                            transaction.refund(buyer, seller, creditAmount);
                             System.out.println("Refund was successful");
                         }
                     }
@@ -274,7 +275,15 @@ public class main{
                     //For regular add credit
                     if(!(commandLine.hasNext()))
                     {
-                        user.addCredit(creditAmount, user.username);
+                        transaction.addCredit(creditAmount, user.username);
+                        //Updating the user's credentials
+                        String userCredentials = user.getUserCredentials(user.username);
+                        String[] credentialsParts = userCredentials.split("-");
+                        String userType = credentialsParts[0];
+                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        user.username = user.username;
+                        user.userType = userType;
+                        user.availableCredit = availableCredit;
                         System.out.println("Credit successfully added to your account");
                     }
                     else if(commandLine.hasNextLine())
@@ -288,9 +297,13 @@ public class main{
                             {
                                 System.out.println("The user: " + addCreditUser + " does not exist");
                             }
+                            else if (user.username.equals(addCreditUser))
+                            {
+                                System.out.println("To add credit to your account, please use the other addcredit command");
+                            }
                             else
                             {
-                            user.addCredit(creditAmount, addCreditUser);
+                            transaction.addCredit(creditAmount, addCreditUser);
                             System.out.println("Credit successfully added to " + addCreditUser + "'s account");
                             }
                         }
