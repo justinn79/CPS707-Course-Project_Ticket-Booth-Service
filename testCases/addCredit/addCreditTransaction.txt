@@ -1,0 +1,3 @@
+login admin
+addCredit 100.00 Ryan
+Q
