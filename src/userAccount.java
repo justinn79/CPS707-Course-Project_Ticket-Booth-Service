@@ -26,6 +26,7 @@ public class userAccount{
         boolean found = false;
         String userTemp = "";        
         
+        //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt.
         try
         {
             Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
@@ -58,6 +59,7 @@ public class userAccount{
         String userType = "";
         String availableCredit = "";      
         
+        //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt.
         try
         {
             Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
@@ -69,6 +71,7 @@ public class userAccount{
 
                 if (userTemp.trim().equals(username.trim()))
                 {
+                    //If a username matches with one in the file, these variables will take their user type and the amount of credits they have.
                     userType = scan.next();
                     availableCredit = scan.next();
                 }
@@ -88,24 +91,28 @@ public class userAccount{
         boolean found = false;
         String userTemp = "";
 
+        //If the username has more than 15 characters.
         if(username.length() > 15)
         {
             System.out.println("Your username must have 15 characters at most.");
             return;
         }
 
+        //If the inputted user type is neither AA, FS, BS, SS.
         if(!userType.equals("AA") && !userType.equals("FS") && !userType.equals("BS") && !userType.equals("SS"))
         {
             System.out.println("The user type does not exist.");
             return;
         }
 
+        //If the number of credits is over 999,999.
         if(availableCredit > 999999)
         {
             System.out.println("The maximum number of credits an account can hold is 999,999");
             return;
         }
         
+        //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt. If so, then the user cannot create an account with that username.
         try
         {
             Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
@@ -143,6 +150,7 @@ public class userAccount{
 
         String createTransactionCode = "01";
 
+        //Writes to the file "currentUsersAccountFile.txt".
         try(FileWriter myWriter = new FileWriter("txtfiles/currentUsersAccountsFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
@@ -154,6 +162,7 @@ public class userAccount{
             System.out.println("Error");
         }
 
+        //Writes to the file "dailyTransactionFile.txt".
         try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
@@ -167,6 +176,7 @@ public class userAccount{
 
     }
 
+    //This method takes a username as input and deletes that username off of the currentUsersAccountFile.txt if it exists.
     public static void deleteUser(String username)
     {
         boolean found = false;
@@ -174,13 +184,14 @@ public class userAccount{
         String userType = "";
         double userCredits = 0;      
 
+        //Determining the number of whitespaces needed after the username to keep the format on the currentUsersAccountsFile.txt
         int userLength = username.length();
         int numberOfWhiteSpaces = 15 - userLength;
 
         String whiteSpace = " ";
         String zero = "0";
         
-        // Removing the username from the currentUsersAccountFile.
+        // Removing the username from the currentUsersAccountFile by using a scanner to check for the username.
         try
         {
             Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
@@ -202,8 +213,10 @@ public class userAccount{
 
                 if (userTemp.trim().equals(username.trim()))
                 {
+                    //Determining the number of zeros needed before the number of credits to keep the format on the currentUsersAccountsFile.txt
                     int numDigits = String.valueOf(userCredits).length();
                     int numberOfZeros = 9 - numDigits;
+
                     String oldLine = (username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + userCredits + "0");
                     String newLine = ("");
                     fileText = fileText.replaceAll(oldLine, newLine);
@@ -235,6 +248,7 @@ public class userAccount{
         String whiteSpaces = " ";
         String zeros = "0";
 
+        //Scanner to check if the username inputted by the user matches with one in the availableTicketsFile.txt. If so, then that same username is also deleted in this file.
         try
         {
             Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
