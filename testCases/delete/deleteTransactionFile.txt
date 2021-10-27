@@ -1,3 +1,0 @@
-login admin
-delete user1
-Q
