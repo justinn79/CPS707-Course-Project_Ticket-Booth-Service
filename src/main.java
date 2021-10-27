@@ -98,7 +98,6 @@ public class main{
                     if (user.userType.equals("AA"))
                     {
                         user.createUser(newUser, newUserType, newCredits);
-                        System.out.println("You have successfully created an new user");
                     }
                     else
                     {

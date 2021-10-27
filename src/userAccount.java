@@ -156,6 +156,8 @@ public class userAccount{
             PrintWriter out = new PrintWriter(bw))
         {
             out.print("\n" + username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + availableCredit + "0");
+            //Telling the user that they have successfully created a new user in the terminal.
+            System.out.println("You have successfully created an new user");
         }
         catch(IOException e)
         {
