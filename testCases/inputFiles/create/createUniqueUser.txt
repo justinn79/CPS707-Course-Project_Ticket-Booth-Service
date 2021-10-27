@@ -1,0 +1,3 @@
+login admin
+create Justin FS 50.00
+Q
