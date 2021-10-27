@@ -1,0 +1,4 @@
+login admin
+buy myEvent 8 Ryan
+Y
+Q
