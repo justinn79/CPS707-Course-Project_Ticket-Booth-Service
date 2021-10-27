@@ -1,3 +1,0 @@
-login Justin
-create user1 FS 50.00
-Q
