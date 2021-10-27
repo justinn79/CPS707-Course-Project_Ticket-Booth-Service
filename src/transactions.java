@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class transactions {
+    //The transaction class handles all the methods and functions associated with the transaction so like the sellTicket, buyTicket, refund and all that.
     
     // An empty constructor
     public transactions()
@@ -85,6 +86,7 @@ public class transactions {
     public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username) throws FileNotFoundException
     {
         boolean found = false;
+        boolean purchased = false;
         double userAvailableCredit;
         String userType = "";
         String userTemp = "";
@@ -139,6 +141,7 @@ public class transactions {
                                 found = true;
                                 break;
                             }
+                            purchased = true;
 
                             System.out.println("Purchase successful");
                         }
@@ -183,172 +186,179 @@ public class transactions {
 
         String buyTransactionCode = "04";
 
-        //Writes to the dailyTransactionFile.txt.
-        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
-            BufferedWriter bw = new BufferedWriter(myWriter);
-            PrintWriter out = new PrintWriter(bw))
+        // If purchased has been set to true, then write to the daily transaction file, deduct the amount of tickets from the seller's inventory, deduct the ticket price with the buyers credits, add the ticket price to the sellers account, and update the text files.
+        if (purchased == true)
         {
-            out.print(buyTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp + "\n");
-        }
-        catch(IOException e)
-        {
-            System.out.println("Error");
-        }
+            //If the user ends up buying a ticket, then write it to the daily transaction file.
 
-        // Deducting the amount sold from the seller's inventory by identifying the seller in the text file using a scanner.
-        try
-        {
-            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
-            StringBuffer buffer = new StringBuffer();
-            while (scan.hasNextLine()) {
-                buffer.append(scan.nextLine()+System.lineSeparator());
-            }
-            String fileText = buffer.toString();
-
-            boolean found2 = false;
-
-            Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
-
-            ticketScan.useDelimiter("\\s+");
-            while(ticketScan.hasNext() && !found2)
+            //Writes to the dailyTransactionFile.txt.
+            try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+                BufferedWriter bw = new BufferedWriter(myWriter);
+                PrintWriter out = new PrintWriter(bw))
             {
-                eventTemp = ticketScan.next();
+                out.print(buyTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp + "\n");
+            }
+            catch(IOException e)
+            {
+                System.out.println("Error");
+            }
+        
 
-                if (eventTemp.trim().equals(eventTitle.trim()))
+            // Deducting the amount sold from the seller's inventory by identifying the seller in the text file using a scanner.
+            try
+            {
+                Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+                StringBuffer buffer = new StringBuffer();
+                while (scan.hasNextLine()) {
+                    buffer.append(scan.nextLine()+System.lineSeparator());
+                }
+                String fileText = buffer.toString();
+
+                boolean found2 = false;
+
+                Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
+
+                ticketScan.useDelimiter("\\s+");
+                while(ticketScan.hasNext() && !found2)
                 {
-                    userTemp = ticketScan.next();
+                    eventTemp = ticketScan.next();
 
-                    if(userTemp.equals(sellerUsername))
+                    if (eventTemp.trim().equals(eventTitle.trim()))
                     {
-                        //Determining the number of zeros needed to fit the format on the availableTicketsFile.txt.
-                        int numberOfZerosTicketAmount2 = totalTicketsTemp.length() - ticketLength;
-                        totalTicketsTemp = ticketScan.next();
-                        String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + totalTicketsTemp);
-                        String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2-1) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
-                        //Replacing the old line in the file with the new line.
-                        fileText = fileText.replaceAll(oldLine, newLine);
-                        FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
-                        writer.append(fileText);
-                        writer.flush();
-                        found2 = true;
+                        userTemp = ticketScan.next();
+
+                        if(userTemp.equals(sellerUsername))
+                        {
+                            //Determining the number of zeros needed to fit the format on the availableTicketsFile.txt.
+                            int numberOfZerosTicketAmount2 = totalTicketsTemp.length() - ticketLength;
+                            totalTicketsTemp = ticketScan.next(); // This above the line before it?
+                            String oldLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + totalTicketsTemp);
+                            String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2-1) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
+                            //Replacing the old line in the file with the new line.
+                            fileText = fileText.replaceAll(oldLine, newLine);
+                            FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
+                            writer.append(fileText);
+                            writer.flush();
+                            found2 = true;
+                        }
                     }
                 }
+                ticketScan.close();
             }
-            ticketScan.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error");
-        }
-
-        // Deducting the amount of user credits after a purchase has been made.
-
-        //Determining the string lengths of user information variables to properly print the information in the right format to the currentUsersAccount.txt.
-        int usernameLength = username.length();
-        int numDigits = String.valueOf(availableCredit).length();
-
-        double totalCost = Double.parseDouble(ticketCostTemp) * numberOfTickets;
-        double newCreditValue = availableCredit - totalCost;
-        int newCreditValueDigits = String.valueOf(newCreditValue).length();
-
-        int numberOfWhiteSpaces = 15 - usernameLength;
-        int numberOfZeros = 9 - numDigits;
-
-        int numberOfZerosForNewValue = 9 - newCreditValueDigits;
-
-        String whiteSpaces = " ";
-        String zeros = "0";
-        
-        //Scanner to go through the currentUsersAccountFile.txt and update the buyers available credit value after a purchase.
-        try
-        {
-            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
-            StringBuffer buffer = new StringBuffer();
-            while (scan1.hasNextLine()) {
-                buffer.append(scan1.nextLine()+System.lineSeparator());
-            }
-            String fileText = buffer.toString();
-
-            boolean found3 = false;
-
-            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
-
-            userScan.useDelimiter("\\s+");
-            while(userScan.hasNext() && !found3)
+            catch(Exception e)
             {
-                userTemp = userScan.next();
-                userType = userScan.next();
-                userAvailableCredit = userScan.nextDouble();
-
-                if (userTemp.trim().equals(username.trim()))
-                {
-                    String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZeros-1) + availableCredit + "0");
-                    String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZerosForNewValue-1) + newCreditValue + "0");
-                    //Replacing the old line in the file with the new line.
-                    fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
-                    writer.append(fileText);
-                    writer.flush();
-                    found3 = true;
-                }
+                System.out.println("Error");
             }
-            userScan.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error");
-        }
 
-        // Adding the amount of user credits to the seller after a purchase has been made.
-        try
-        {
-            int sellerUsernameLength = sellerUsername.length();
+            // Deducting the amount of user credits after a purchase has been made.
 
-            int numberOfWhiteSpacesSeller = 15 - sellerUsernameLength;
+            //Determining the string lengths of user information variables to properly print the information in the right format to the currentUsersAccount.txt.
+            int usernameLength = username.length();
+            int numDigits = String.valueOf(availableCredit).length();
 
-            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
-            StringBuffer buffer = new StringBuffer();
-            while (scan1.hasNextLine()) {
-                buffer.append(scan1.nextLine()+System.lineSeparator());
-            }
-            String fileText = buffer.toString();
+            double totalCost = Double.parseDouble(ticketCostTemp) * numberOfTickets;
+            double newCreditValue = availableCredit - totalCost;
+            int newCreditValueDigits = String.valueOf(newCreditValue).length();
 
-            boolean found3 = false;
+            int numberOfWhiteSpaces = 15 - usernameLength;
+            int numberOfZeros = 9 - numDigits;
 
-            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+            int numberOfZerosForNewValue = 9 - newCreditValueDigits;
 
-            userScan.useDelimiter("\\s+");
-            while(userScan.hasNext() && !found3)
+            String whiteSpaces = " ";
+            String zeros = "0";
+            
+            //Scanner to go through the currentUsersAccountFile.txt and update the buyers available credit value after a purchase.
+            try
             {
-                userTemp = userScan.next();
-                userType = userScan.next();
-                userAvailableCredit = userScan.nextDouble();
-
-                if (userTemp.trim().equals(sellerUsername.trim()))
-                {
-                    //Determining the string lengths of user information variables to properly print the information in the right format to the currentUsersAccount.txt.
-                    double newSellersCreditValue = userAvailableCredit + totalCost;
-                    int newSellersCreditValueDigits = String.valueOf(newSellersCreditValue).length();
-                    int numberOfZerosForSellersValue = 9 - newSellersCreditValueDigits;
-
-                    int numDigitsOldSeller = String.valueOf(userAvailableCredit).length();
-                    int numberOfZerosOldSeller = 9 - numDigitsOldSeller;
-
-                    String oldLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosOldSeller-1) + userAvailableCredit + "0");
-                    String newLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosForSellersValue-1) + newSellersCreditValue + "0");
-                    //Replacing the old line in the file with the new line.
-                    fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
-                    writer.append(fileText);
-                    writer.flush();
-                    found3 = true;
+                Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+                StringBuffer buffer = new StringBuffer();
+                while (scan1.hasNextLine()) {
+                    buffer.append(scan1.nextLine()+System.lineSeparator());
                 }
+                String fileText = buffer.toString();
+
+                boolean found3 = false;
+
+                Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+                userScan.useDelimiter("\\s+");
+                while(userScan.hasNext() && !found3)
+                {
+                    userTemp = userScan.next();
+                    userType = userScan.next();
+                    userAvailableCredit = userScan.nextDouble();
+
+                    if (userTemp.trim().equals(username.trim()))
+                    {
+                        String oldLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZeros-1) + availableCredit + "0");
+                        String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZerosForNewValue-1) + newCreditValue + "0");
+                        //Replacing the old line in the file with the new line.
+                        fileText = fileText.replaceAll(oldLine, newLine);
+                        FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                        writer.append(fileText);
+                        writer.flush();
+                        found3 = true;
+                    }
+                }
+                userScan.close();
             }
-            userScan.close();
-        }
-        catch(Exception e)
-        {
-            System.out.println("Error");
+            catch(Exception e)
+            {
+                System.out.println("Error");
+            }
+
+            // Adding the amount of user credits to the seller after a purchase has been made.
+            try
+            {
+                int sellerUsernameLength = sellerUsername.length();
+
+                int numberOfWhiteSpacesSeller = 15 - sellerUsernameLength;
+
+                Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+                StringBuffer buffer = new StringBuffer();
+                while (scan1.hasNextLine()) {
+                    buffer.append(scan1.nextLine()+System.lineSeparator());
+                }
+                String fileText = buffer.toString();
+
+                boolean found3 = false;
+
+                Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
+
+                userScan.useDelimiter("\\s+");
+                while(userScan.hasNext() && !found3)
+                {
+                    userTemp = userScan.next();
+                    userType = userScan.next();
+                    userAvailableCredit = userScan.nextDouble();
+
+                    if (userTemp.trim().equals(sellerUsername.trim()))
+                    {
+                        //Determining the string lengths of user information variables to properly print the information in the right format to the currentUsersAccount.txt.
+                        double newSellersCreditValue = userAvailableCredit + totalCost;
+                        int newSellersCreditValueDigits = String.valueOf(newSellersCreditValue).length();
+                        int numberOfZerosForSellersValue = 9 - newSellersCreditValueDigits;
+
+                        int numDigitsOldSeller = String.valueOf(userAvailableCredit).length();
+                        int numberOfZerosOldSeller = 9 - numDigitsOldSeller;
+
+                        String oldLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosOldSeller-1) + userAvailableCredit + "0");
+                        String newLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosForSellersValue-1) + newSellersCreditValue + "0");
+                        //Replacing the old line in the file with the new line.
+                        fileText = fileText.replaceAll(oldLine, newLine);
+                        FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
+                        writer.append(fileText);
+                        writer.flush();
+                        found3 = true;
+                    }
+                }
+                userScan.close();
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error");
+            }
         }
     }
 
