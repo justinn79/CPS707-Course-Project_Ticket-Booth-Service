@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class transactions {
+    //The transaction class handles all the methods and functions associated with the transaction so like the sellTicket, buyTicket, refund and all that.
     
     // An empty constructor
     public transactions()
@@ -85,6 +86,7 @@ public class transactions {
     public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username) throws FileNotFoundException
     {
         boolean found = false;
+        boolean purchased = false;
         double userAvailableCredit;
         String userType = "";
         String userTemp = "";
@@ -139,6 +141,7 @@ public class transactions {
                                 found = true;
                                 break;
                             }
+                            purchased = true;
 
                             System.out.println("Purchase successful");
                         }
@@ -183,16 +186,20 @@ public class transactions {
 
         String buyTransactionCode = "04";
 
-        //Writes to the dailyTransactionFile.txt.
-        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
-            BufferedWriter bw = new BufferedWriter(myWriter);
-            PrintWriter out = new PrintWriter(bw))
+        //If the user ends up buying a ticket, then write it to the daily transaction file.
+        if (purchased == true)
         {
-            out.print(buyTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp + "\n");
-        }
-        catch(IOException e)
-        {
-            System.out.println("Error");
+            //Writes to the dailyTransactionFile.txt.
+            try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
+                BufferedWriter bw = new BufferedWriter(myWriter);
+                PrintWriter out = new PrintWriter(bw))
+            {
+                out.print(buyTransactionCode + " " + eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount) + numberOfTickets + " " + zero.repeat(numberOfZerosTicketPrice) + ticketCostTemp + "\n");
+            }
+            catch(IOException e)
+            {
+                System.out.println("Error");
+            }
         }
 
         // Deducting the amount sold from the seller's inventory by identifying the seller in the text file using a scanner.
