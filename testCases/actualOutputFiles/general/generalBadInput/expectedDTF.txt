@@ -1,0 +1,7 @@
+01 user1           FS 000050.00
+02 user1           FS 000050.00
+03 testEvent                 Ryan            050 015.00
+04 myEvent                   Ryan            001 060.00
+04 myEvent                   Ryan            008 060.00
+05 Ferhan          Ryan            000015.00
+06 Ryan            FS 005625.00
