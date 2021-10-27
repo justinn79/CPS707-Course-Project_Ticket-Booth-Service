@@ -1,0 +1,3 @@
+login Ferhan
+delete user1
+Q

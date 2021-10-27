@@ -1,0 +1,6 @@
+login Justin
+buy myEvent 1 Ryan
+N
+logout
+buy myEvent 1 Ryan
+Q

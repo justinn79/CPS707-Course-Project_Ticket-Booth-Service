@@ -1,0 +1,10 @@
+Welcome to Tix Event Ticketing Service
+Please Login:
+Login Successful
+Cost per ticket: 060.00
+Number of tickets your purchasing: 1       
+Your total is: 60.0
+Would you like to make this purchase? (Y/N)
+Purchase cancelled.
+You have successfully logged out
+You must be logged in before using this application

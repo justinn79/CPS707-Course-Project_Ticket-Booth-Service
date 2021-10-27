@@ -1,3 +1,0 @@
-login Justin
-buy myEvent 8 Ryan
-Q

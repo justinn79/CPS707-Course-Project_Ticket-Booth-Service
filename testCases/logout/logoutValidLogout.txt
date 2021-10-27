@@ -1,4 +1,0 @@
-logout
-login Ryan
-logout
-Q
