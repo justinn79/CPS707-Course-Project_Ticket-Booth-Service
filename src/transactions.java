@@ -126,9 +126,10 @@ public class transactions {
                         System.out.println("Number of tickets your purchasing: " + numberOfTickets);
                         double totalCost = Double.parseDouble(ticketCostTemp) * numberOfTickets;
                         System.out.println("Your total is: " + totalCost);
-
                         System.out.println("Would you like to make this purchase? (Y/N)");
+
                         Scanner commandLine = new Scanner(scanner.nextLine());
+                        System.out.println(commandLine);
                         String input = commandLine.next();
 
                         //If the user inputs "Y"
@@ -152,8 +153,8 @@ public class transactions {
                             System.out.println("Purchase cancelled.");
                         }
                         
-                        
                         found = true;
+                        commandLine.close();
                     }
                 }
             }
@@ -165,7 +166,7 @@ public class transactions {
         }
         catch(Exception e)
         {
-            System.out.println("Error");
+            System.out.println("Error1");
         }
 
         // //Updating the buy information on the daily transaction file.
@@ -200,7 +201,7 @@ public class transactions {
             }
             catch(IOException e)
             {
-                System.out.println("Error");
+                System.out.println("Error2");
             }
         
 
@@ -247,7 +248,7 @@ public class transactions {
             }
             catch(Exception e)
             {
-                System.out.println("Error");
+                System.out.println("Error3");
             }
 
             // Deducting the amount of user credits after a purchase has been made.
@@ -305,7 +306,7 @@ public class transactions {
             }
             catch(Exception e)
             {
-                System.out.println("Error");
+                System.out.println("Error4");
             }
 
             // Adding the amount of user credits to the seller after a purchase has been made.
@@ -357,7 +358,7 @@ public class transactions {
             }
             catch(Exception e)
             {
-                System.out.println("Error");
+                System.out.println("Error5");
             }
         }
     }
