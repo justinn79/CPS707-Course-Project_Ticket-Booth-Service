@@ -83,7 +83,7 @@ public class transactions {
     }
 
     //This method processes tickets bought by the user and is done so by updating the buy information on the daily transactions file, deducting the amount sold from the seller’s inventory, and deducting the amount of user credits after a purchase has been made.
-    public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username, Scanner scanner) throws FileNotFoundException
+    public static void buyTicket(String eventTitle, int numberOfTickets, String sellerUsername, double availableCredit, String username) throws FileNotFoundException
     {
         boolean found = false;
         boolean purchased = false;
@@ -94,7 +94,7 @@ public class transactions {
         String totalTicketsTemp = "";
         String ticketCostTemp = "";
 
-        //Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
         //Using a scanner to go through availableTicketsFile.txt and check if the inputted sellers username exists with tickets for sale.
         try
@@ -128,8 +128,9 @@ public class transactions {
                         System.out.println("Your total is: " + totalCost);
                         System.out.println("Would you like to make this purchase? (Y/N)");
 
-                        //Scanner commandLine = new Scanner(scanner.nextLine());
-                        String input = scanner.next();
+                        Scanner commandLine = new Scanner(scanner.nextLine());
+                        System.out.println(commandLine);
+                        String input = commandLine.next();
 
                         //If the user inputs "Y"
                         if(input.equals("Y"))
@@ -153,7 +154,7 @@ public class transactions {
                         }
                         
                         found = true;
-                        scanner.close();
+                        commandLine.close();
                     }
                 }
             }
@@ -165,7 +166,7 @@ public class transactions {
         }
         catch(Exception e)
         {
-            System.out.println(e);
+            System.out.println("Error1");
         }
 
         // //Updating the buy information on the daily transaction file.
