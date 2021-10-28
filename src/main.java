@@ -158,7 +158,7 @@ public class main{
                     //Checking if user is logged in as admin
                     else if (user.userType.equals("AA"))
                     {
-                        transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username, commandLine);
+                        transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
                         //Updating the user's credentials
                         String userCredentials = user.getUserCredentials(user.username);
                         String[] credentialsParts = userCredentials.split("-");
@@ -178,7 +178,7 @@ public class main{
                         }
                         else
                         {
-                            transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username, commandLine);
+                            transaction.buyTicket(eventTitle, numberOfTickets, sellerUsername, user.availableCredit, user.username);
                             //Updating the user's credentials
                             String userCredentials = user.getUserCredentials(user.username);
                             String[] credentialsParts = userCredentials.split("-");
