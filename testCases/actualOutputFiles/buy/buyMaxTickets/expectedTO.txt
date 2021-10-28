@@ -1,4 +1,0 @@
-Welcome to Tix Event Ticketing Service
-Please Login:
-Login Successful
-You can only buy a maximum of 4 tickets

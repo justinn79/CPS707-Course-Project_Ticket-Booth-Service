@@ -1,4 +1,0 @@
-01 user1           FS 000050.00
-02 user1           FS 000050.00
-03 testEvent                 Ryan            050 015.00
-04 myEvent                   Ryan            001 060.00

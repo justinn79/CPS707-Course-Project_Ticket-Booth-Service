@@ -1,0 +1,4 @@
+Welcome to Tix Event Ticketing Service
+Please Login:
+Login Successful
+Please enter a valid command (Q to quit): 
