@@ -1,0 +1,5 @@
+Welcome to Tix Event Ticketing Service
+Please Login:
+You must be logged in before using this application
+Login Successful
+You have successfully logged out

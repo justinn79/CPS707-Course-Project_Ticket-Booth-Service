@@ -1,4 +1,4 @@
 Welcome to Tix Event Ticketing Service
 Please Login:
 Login Successful
-You are unauthorized to use this transaction
+Can not delete the current user logged in

@@ -1,4 +1,4 @@
 Welcome to Tix Event Ticketing Service
 Please Login:
 Login Successful
-You have successfully created an new user
+You are unauthorized to use this transaction
