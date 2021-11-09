@@ -1,10 +1,11 @@
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class main{
 
     //This method runs the ticket service program
-    public static void main(String[] args) throws FileNotFoundException{
+    public static void main(String[] args) throws IOException{
 
         boolean done = false;
         boolean loginFlag = false;
@@ -12,6 +13,8 @@ public class main{
         userAccount user = new userAccount(null, null, 0);
         //transactions object
         transactions transaction = new transactions();
+        //backend object
+        backend backend = new backend();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to Tix Event Ticketing Service\nPlease Login:");
         
@@ -75,6 +78,8 @@ public class main{
                 {
                     System.out.println("You have successfully logged out");
                     loginFlag = false;
+                    user.logout();
+                    backend.mergeDTF();
                 }
                 //Creating a new user
                 else if (input.equals("create"))
