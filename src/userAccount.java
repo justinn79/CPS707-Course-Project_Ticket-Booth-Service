@@ -35,7 +35,7 @@ public class userAccount{
         //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt.
         try
         {
-            Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             scan.useDelimiter("\\s+");
 
             while(scan.hasNext() && !found)
@@ -61,14 +61,14 @@ public class userAccount{
     public static void logout() throws IOException{
 
         //Create a new file then copy contents in old file to a new one
-        Path originalDTF = Paths.get("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt");
-        Path newDTF = Paths.get("CPS707-Course-Project-main/dailyTransactionFiles/dailyTransactionFile"+count+".txt");
+        Path originalDTF = Paths.get("txtfiles/dailyTransactionFile.txt");
+        Path newDTF = Paths.get("dailyTransactionFiles/dailyTransactionFile"+count+".txt");
         Files.copy(originalDTF, newDTF, StandardCopyOption.REPLACE_EXISTING);
 
         count = count + 1;
 
         //Delete everything in original dailyTransactionFile
-        Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt"));
+        Scanner scan1 = new Scanner(new File("txtfiles/dailyTransactionFile.txt"));
         StringBuffer buffer = new StringBuffer();
         while (scan1.hasNextLine()) {
             buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -76,7 +76,7 @@ public class userAccount{
         String fileText = buffer.toString();
         
         fileText = fileText.replaceAll(fileText, "");
-        FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt");
+        FileWriter writer = new FileWriter("txtfiles/dailyTransactionFile.txt");
         writer.append(fileText);
         writer.flush();
                 
@@ -94,7 +94,7 @@ public class userAccount{
         //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt.
         try
         {
-            Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             scan.useDelimiter("\\s+");
 
             while(scan.hasNext() && !found)
@@ -147,7 +147,7 @@ public class userAccount{
         //Scanner to check if the username inputted by the user matches with one in the currentUsersAccountsFile.txt. If so, then the user cannot create an account with that username.
         try
         {
-            Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             scan.useDelimiter("\\s+");
 
             while(scan.hasNext() && !found)
@@ -183,7 +183,7 @@ public class userAccount{
         String createTransactionCode = "01";
 
         //Writes to the file "currentUsersAccountFile.txt".
-        try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt", true);
+        try(FileWriter myWriter = new FileWriter("txtfiles/currentUsersAccountsFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -228,14 +228,14 @@ public class userAccount{
         // Removing the username from the currentUsersAccountFile by using a scanner to check for the username.
         try
         {
-            Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan1.hasNextLine()) {
                 buffer.append(scan1.nextLine()+System.lineSeparator());
             }
             String fileText = buffer.toString();
 
-            Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
             userScan.useDelimiter("\\s+");
 
@@ -254,7 +254,7 @@ public class userAccount{
                     String oldLine = (username + whiteSpace.repeat(numberOfWhiteSpaces) + " " + userType + " " + zero.repeat(numberOfZeros-1) + userCredits + "0");
                     String newLine = ("");
                     fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                     writer.append(fileText);
                     writer.flush();
                     found = true;
@@ -285,7 +285,7 @@ public class userAccount{
         //Scanner to check if the username inputted by the user matches with one in the availableTicketsFile.txt. If so, then that same username is also deleted in this file.
         try
         {
-            Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt"));
+            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan.hasNextLine()) {
                 buffer.append(scan.nextLine()+System.lineSeparator());
@@ -294,7 +294,7 @@ public class userAccount{
 
             boolean found2 = false;
 
-            Scanner ticketScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt"));
+            Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
 
             ticketScan.useDelimiter("\\s+");
             while(ticketScan.hasNext() && !found2)
@@ -317,7 +317,7 @@ public class userAccount{
                     String oldLine = (eventTemp + whiteSpaces.repeat(numberOfWhiteSpacesEvent) + " " +  userTemp + whiteSpaces.repeat(numberOfWhiteSpacesUser) + " " + numOfTickets + " " + ticketPrice);
                     String newLine = ("");
                     fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt");
+                    FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
                     writer.append(fileText);
                     writer.flush();
                     found2 = true;
@@ -337,7 +337,7 @@ public class userAccount{
         int numDigits = String.valueOf(userCredits).length();
         int numberOfZeros = 9 - numDigits;
 
-        try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt", true);
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
         BufferedWriter bw = new BufferedWriter(myWriter);
         PrintWriter out = new PrintWriter(bw))
         {
