@@ -57,7 +57,7 @@ public class transactions {
         String userTypeCode = "";
 
         //Writes this information in the dailyTransactionFile.txt.
-        try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt", true);
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -70,7 +70,7 @@ public class transactions {
         }
 
         //Writes this information in the availableTicketsFile.txt.
-        try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt", true);
+        try(FileWriter myWriter = new FileWriter("txtfiles/availableTicketsFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -99,7 +99,7 @@ public class transactions {
         //Using a scanner to go through availableTicketsFile.txt and check if the inputted sellers username exists with tickets for sale.
         try
         {
-            Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt"));
+            Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
             scan.useDelimiter("\\s+");
 
             while(scan.hasNext() && !found)
@@ -192,7 +192,7 @@ public class transactions {
             //If the user ends up buying a ticket, then write it to the daily transaction file.
 
             //Writes to the dailyTransactionFile.txt.
-            try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt", true);
+            try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
                 BufferedWriter bw = new BufferedWriter(myWriter);
                 PrintWriter out = new PrintWriter(bw))
             {
@@ -207,7 +207,7 @@ public class transactions {
             // Deducting the amount sold from the seller's inventory by identifying the seller in the text file using a scanner.
             try
             {
-                Scanner scan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt"));
+                Scanner scan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
                 StringBuffer buffer = new StringBuffer();
                 while (scan.hasNextLine()) {
                     buffer.append(scan.nextLine()+System.lineSeparator());
@@ -216,7 +216,7 @@ public class transactions {
 
                 boolean found2 = false;
 
-                Scanner ticketScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt"));
+                Scanner ticketScan = new Scanner(new File("txtfiles/availableTicketsFile.txt"));
 
                 ticketScan.useDelimiter("\\s+");
                 while(ticketScan.hasNext() && !found2)
@@ -236,7 +236,7 @@ public class transactions {
                             String newLine = (eventTitle + whiteSpace.repeat(numberOfWhiteSpacesEvent) + " " +  sellerUsername + whiteSpace.repeat(numberOfWhiteSpacesUser) + " " + zero.repeat(numberOfZerosTicketAmount2-1) + (Integer.parseInt(totalTicketsTemp) - numberOfTickets));
                             //Replacing the old line in the file with the new line.
                             fileText = fileText.replaceAll(oldLine, newLine);
-                            FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/availableTicketsFile.txt");
+                            FileWriter writer = new FileWriter("txtfiles/availableTicketsFile.txt");
                             writer.append(fileText);
                             writer.flush();
                             found2 = true;
@@ -271,7 +271,7 @@ public class transactions {
             //Scanner to go through the currentUsersAccountFile.txt and update the buyers available credit value after a purchase.
             try
             {
-                Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+                Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
                 StringBuffer buffer = new StringBuffer();
                 while (scan1.hasNextLine()) {
                     buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -280,7 +280,7 @@ public class transactions {
 
                 boolean found3 = false;
 
-                Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+                Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
                 userScan.useDelimiter("\\s+");
                 while(userScan.hasNext() && !found3)
@@ -295,7 +295,7 @@ public class transactions {
                         String newLine = (username + whiteSpaces.repeat(numberOfWhiteSpaces) + " " + userType + " " + zeros.repeat(numberOfZerosForNewValue-1) + newCreditValue + "0");
                         //Replacing the old line in the file with the new line.
                         fileText = fileText.replaceAll(oldLine, newLine);
-                        FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                        FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                         writer.append(fileText);
                         writer.flush();
                         found3 = true;
@@ -315,7 +315,7 @@ public class transactions {
 
                 int numberOfWhiteSpacesSeller = 15 - sellerUsernameLength;
 
-                Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+                Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
                 StringBuffer buffer = new StringBuffer();
                 while (scan1.hasNextLine()) {
                     buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -324,7 +324,7 @@ public class transactions {
 
                 boolean found3 = false;
 
-                Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+                Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
                 userScan.useDelimiter("\\s+");
                 while(userScan.hasNext() && !found3)
@@ -347,7 +347,7 @@ public class transactions {
                         String newLine = (sellerUsername + whiteSpaces.repeat(numberOfWhiteSpacesSeller) + " " + userType + " " + zeros.repeat(numberOfZerosForSellersValue-1) + newSellersCreditValue + "0");
                         //Replacing the old line in the file with the new line.
                         fileText = fileText.replaceAll(oldLine, newLine);
-                        FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                        FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                         writer.append(fileText);
                         writer.flush();
                         found3 = true;
@@ -384,7 +384,7 @@ public class transactions {
         //Using a scanner to go through the currentUsersAccountsFile.txt file and update the buyers available credit value.
         try
         {
-            Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan1.hasNextLine()) {
                 buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -393,7 +393,7 @@ public class transactions {
 
             boolean found3 = false;
 
-            Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
             userScan.useDelimiter("\\s+");
             while(userScan.hasNext() && !found3)
@@ -419,7 +419,7 @@ public class transactions {
                     // System.out.println(newLine);
                     //Replacing the old line in the file with the new line.
                     fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                     writer.append(fileText);
                     writer.flush();
                     found3 = true;
@@ -438,7 +438,7 @@ public class transactions {
         //Using a scanner to go through the currentUsersAccountsFile.txt file and update the sellers available credit value.
         try
         {
-            Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan1.hasNextLine()) {
                 buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -447,7 +447,7 @@ public class transactions {
 
             boolean found3 = false;
 
-            Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
             userScan.useDelimiter("\\s+");
             while(userScan.hasNext() && !found3)
@@ -473,7 +473,7 @@ public class transactions {
                     // System.out.println(newLine);
                     //Replacing the old line in the file with the new line.
                     fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                     writer.append(fileText);
                     writer.flush();
                     found3 = true;
@@ -495,7 +495,7 @@ public class transactions {
         int numOfZerosForCreditAmount = 9 - numOfDigitsCreditAmount;
 
         //Writes to the dailyTransactionFile.txt.
-        try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt", true);
+        try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
             BufferedWriter bw = new BufferedWriter(myWriter);
             PrintWriter out = new PrintWriter(bw))
         {
@@ -524,7 +524,7 @@ public class transactions {
         //Scanner to go through the currentUsersAccountsFile.txt and locates the username inputted to update their credit value.
         try
         {
-            Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan1.hasNextLine()) {
                 buffer.append(scan1.nextLine()+System.lineSeparator());
@@ -533,7 +533,7 @@ public class transactions {
 
             boolean found = false;
 
-            Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
             userScan.useDelimiter("\\s+");
             while(userScan.hasNext() && !found)
@@ -559,7 +559,7 @@ public class transactions {
                     // System.out.println(newLine);
                     //Replaces the old line in the text file with the new line.
                     fileText = fileText.replaceAll(oldLine, newLine);
-                    FileWriter writer = new FileWriter("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt");
+                    FileWriter writer = new FileWriter("txtfiles/currentUsersAccountsFile.txt");
                     writer.append(fileText);
                     writer.flush();
                     found = true;
@@ -580,14 +580,14 @@ public class transactions {
         //Scanner to go through the currentUserAccountsFile.txt and print the information of the addCredit method to the dailyTransactionFile.txt.
         try
         {
-            Scanner scan1 = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner scan1 = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
             StringBuffer buffer = new StringBuffer();
             while (scan1.hasNextLine()) {
                 buffer.append(scan1.nextLine()+System.lineSeparator());
             }
             String fileText = buffer.toString();
 
-            Scanner userScan = new Scanner(new File("CPS707-Course-Project-main/txtfiles/currentUsersAccountsFile.txt"));
+            Scanner userScan = new Scanner(new File("txtfiles/currentUsersAccountsFile.txt"));
 
             userScan.useDelimiter("\\s+");
 
@@ -605,7 +605,7 @@ public class transactions {
                     int numOfZerosForAvailableCredit= 9 - numOfDigitsAvailableCredit;
 
                     //Writes to the dailyTransactionFile.txt.
-                    try(FileWriter myWriter = new FileWriter("CPS707-Course-Project-main/txtfiles/dailyTransactionFile.txt", true);
+                    try(FileWriter myWriter = new FileWriter("txtfiles/dailyTransactionFile.txt", true);
                         BufferedWriter bw = new BufferedWriter(myWriter);
                         PrintWriter out = new PrintWriter(bw))
                     {
