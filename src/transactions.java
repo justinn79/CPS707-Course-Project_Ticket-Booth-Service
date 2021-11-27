@@ -150,6 +150,8 @@ public class transactions {
                         if(input.equals("N"))
                         {
                             System.out.println("Purchase cancelled.");
+                            commandLine.close();
+                            return;
                         }
                         
                         found = true;
