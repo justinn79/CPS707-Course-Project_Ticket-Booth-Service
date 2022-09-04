@@ -3,6 +3,6 @@ To process a transaction in this program, all variables in the command must be i
 
 Example:
 
-login username
-sell eventTitle ticketPrice numberOfTickets
+login username\
+sell eventTitle ticketPrice numberOfTickets\
 buy eventTitle numberOfTickets sellerUsername
