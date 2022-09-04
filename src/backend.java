@@ -9,9 +9,9 @@ public class backend {
 
     //This method merges all files from the dailyTransactionFiles folder into the mergedDailyTransactionFile.txt
     public static void mergeDTF() throws IOException{
-        File folder = new File("dailyTransactionFiles");
+        File folder = new File("../dailyTransactionFiles");
  
-        PrintWriter pw = new PrintWriter("txtfiles/mergedDailyTransactionFile.txt");
+        PrintWriter pw = new PrintWriter("../txtfiles/mergedDailyTransactionFile.txt");
  
         // Get list of all the files in form of String Array
         String[] fileNames = folder.list();

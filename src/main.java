@@ -49,7 +49,7 @@ public class main{
                         String userCredentials = user.getUserCredentials(username);
                         String[] credentialsParts = userCredentials.split("-");
                         String userType = credentialsParts[0];
-                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        float availableCredit = Float.parseFloat(credentialsParts[1]);
                         user.username = username;
                         user.userType = userType;
                         user.availableCredit = availableCredit;
@@ -98,7 +98,7 @@ public class main{
 					{
 					    continue;
 					}
-                    double newCredits = commandLine.nextDouble();
+                    float newCredits = commandLine.nextFloat();
                     //Checking if the user logged in is an admin
                     if (user.userType.equals("AA"))
                     {
@@ -168,7 +168,7 @@ public class main{
                         String userCredentials = user.getUserCredentials(user.username);
                         String[] credentialsParts = userCredentials.split("-");
                         String userType = credentialsParts[0];
-                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        float availableCredit = Float.parseFloat(credentialsParts[1]);
                         user.username = user.username;
                         user.userType = userType;
                         user.availableCredit = availableCredit;
@@ -188,7 +188,7 @@ public class main{
                             String userCredentials = user.getUserCredentials(user.username);
                             String[] credentialsParts = userCredentials.split("-");
                             String userType = credentialsParts[0];
-                            double availableCredit = Double.parseDouble(credentialsParts[1]);
+                            float availableCredit = Float.parseFloat(credentialsParts[1]);
                             user.username = user.username;
                             user.userType = userType;
                             user.availableCredit = availableCredit;
@@ -284,7 +284,7 @@ public class main{
                         String userCredentials = user.getUserCredentials(user.username);
                         String[] credentialsParts = userCredentials.split("-");
                         String userType = credentialsParts[0];
-                        double availableCredit = Double.parseDouble(credentialsParts[1]);
+                        float availableCredit = Float.parseFloat(credentialsParts[1]);
                         user.username = user.username;
                         user.userType = userType;
                         user.availableCredit = availableCredit;
