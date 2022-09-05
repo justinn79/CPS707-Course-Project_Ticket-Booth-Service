@@ -62,7 +62,7 @@ public class userAccount{
 
         //Create a new file then copy contents in old file to a new one
         Path originalDTF = Paths.get("../txtfiles/dailyTransactionFile.txt");
-        Path newDTF = Paths.get("dailyTransactionFiles/dailyTransactionFile"+count+".txt");
+        Path newDTF = Paths.get("../dailyTransactionFiles/dailyTransactionFile"+count+".txt");
         Files.copy(originalDTF, newDTF, StandardCopyOption.REPLACE_EXISTING);
 
         count = count + 1;
