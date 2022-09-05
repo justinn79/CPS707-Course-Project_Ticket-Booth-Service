@@ -3,7 +3,7 @@
 
 A ticket booth service program written completely in java. This is a program that runs on the command line.
 
-Commands:\
+## Commands:
 <pre>
 login *username*                                        (Username must exist in the currentUsersAccountsFile.txt in order to successfully log in)\
 create *username* *userType* *creditAmount*             (Existing User Types: SS,FS,BS,AA) (AA is admin)\
@@ -21,4 +21,11 @@ availableTicketsFile.txt:       Lists all of the available tickets that users ca
 currentUsersAccountsFile.txt:   Lists all of the existing users of the program.
 dailyTransactionFile.txt:       Displays all of the actions the user does within one session of using the ticket booth program.
 mergedDailyTransactionFile.txt: Stores everything from dailyTransactionFile.txt to this file and keeps it after the program is terminated.
+</pre>
+
+## Running the program:
+<pre>
+Change directory to the src folder: "cd src"
+Make sure every java file is compiled: "javac *fileName*.java"
+Run the main java file: "java main"
 </pre>
